@@ -3,9 +3,9 @@ class Character:
     MIN_LEVEL = 1
     MIN_HEALTH = 0
 
-    def __init__(self):
+    def __init__(self, level=MIN_LEVEL):
         self.health = self.MAX_HEALTH
-        self.level = self.MIN_LEVEL
+        self.level = level
 
     def alive(self):
         return self.health > self.MIN_HEALTH

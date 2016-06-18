@@ -3,15 +3,8 @@ from expects import *
 from character import Character
 
 
-class Game:
-    def deal_damage(self, attacker, receiver, amount):
-        if attacker == receiver:
-            return
-        receiver.deal_damage(amount)
+from game import Game
 
-    def heal_damage(self, healer, patient, amount):
-        if healer == patient:
-            patient.heal_damage(amount)
 
 with description("Game"):
     with before.each:
@@ -49,3 +42,17 @@ with description("Game"):
             self.game.heal_damage(self.other_character, self.other_character, 10)
 
             expect(self.other_character.health).to(equal(actual_health))
+
+    with context("level effect in attack"):
+        with before.each:
+            self.level6_character = Character(6)
+
+        with it("reduces damage by level"):
+            self.game.deal_damage(self.a_character, self.level6_character, 10)
+
+            expect(self.level6_character.health).to(equal(995))
+
+        with it("increases damage by level"):
+            self.game.deal_damage(self.level6_character, self.a_character, 10)
+
+            expect(self.a_character.health).to(equal(985))
